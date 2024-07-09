@@ -1,0 +1,5 @@
+CREATE PROCEDURE GetAlllUsers
+AS
+BEGIN
+    SELECT * FROM Users
+END
