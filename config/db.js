@@ -1,28 +1,30 @@
-const sql = require('mssql')
+import { MongoClient, ServerApiVersion } from 'mongodb';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
-const config = {
-    user: "sa9",
-    password: "1234",
-    database: "BackendProjectDB",
-    server: 'localhost', //Server to connect to. You can use 'localhost\instance' to connect to named instance.
-    port: 1433, //Port to connect to (default: 1433). Don't set when connecting to named instance.
-    pool: {
-        max: 10,
-        min: 0,
-        idleTimeoutMillis: 30000
-    },
-    options: {
-        encrypt: false, // for azure use true
-        trustServerCertificate: true // use true for local dev / self-signed certs
+const uri = process.env.MONGODB_URI; // Make sure this is set in your environment
+let db;
+async function connectToDb() {
+    try {
+        console.log("Attempting to connect to MongoDB..."); // Add this line
+        const client = new MongoClient(uri);
+        await client.connect();
+        db = client.db("sample_mflix");
+        console.log("Successfully connected to MongoDB and DB initialized!");
+        return db;
+    } catch (error) {
+        console.error("Error connecting to MongoDB (FATAL):", error);
+        db = null;
+        throw error;
     }
 }
-const poolPromise = new sql.ConnectionPool(config).connect().then(pool => {
-    console.log("Connected to MSSQL ")
-    return pool
-}).catch(err => {
-    console.log("Connection Faild To Database:", err)
-    throw err
-})
-module.exports = {
-    sql, poolPromise
+
+async function getCollection(collectionName) {
+    if (!db) {
+        await connectToDb();
+    }
+    return db.collection(collectionName);
 }
+
+export { connectToDb, getCollection };
+

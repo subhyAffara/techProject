@@ -38,7 +38,6 @@ export {
     Configuration,
     ManagedIdentityConfiguration,
     ManagedIdentityIdParams,
-    buildAppConfiguration,
     NodeAuthOptions,
     NodeSystemOptions,
     BrokerOptions,
@@ -49,7 +48,6 @@ export { ClientAssertion } from "./client/ClientAssertion.js";
 
 // Cache and Storage
 export { TokenCache } from "./cache/TokenCache.js";
-export { NodeStorage } from "./cache/NodeStorage.js";
 export {
     CacheKVStore,
     JsonCache,
@@ -129,6 +127,6 @@ export {
     AppTokenProviderResult,
     INativeBrokerPlugin,
     ClientAssertionCallback,
-} from "@azure/msal-common";
+} from "@azure/msal-common/node";
 
 export { version } from "./packageMetadata.js";

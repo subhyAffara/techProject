@@ -3,12 +3,12 @@
  * Licensed under the MIT License.
  */
 
-import { INetworkModule, Logger } from "@azure/msal-common";
-import { ManagedIdentityId } from "../../config/ManagedIdentityId";
-import { ManagedIdentityRequestParameters } from "../../config/ManagedIdentityRequestParameters";
-import { BaseManagedIdentitySource } from "./BaseManagedIdentitySource";
-import { NodeStorage } from "../../cache/NodeStorage";
-import { CryptoProvider } from "../../crypto/CryptoProvider";
+import { INetworkModule, Logger } from "@azure/msal-common/node";
+import { ManagedIdentityId } from "../../config/ManagedIdentityId.js";
+import { ManagedIdentityRequestParameters } from "../../config/ManagedIdentityRequestParameters.js";
+import { BaseManagedIdentitySource } from "./BaseManagedIdentitySource.js";
+import { NodeStorage } from "../../cache/NodeStorage.js";
+import { CryptoProvider } from "../../crypto/CryptoProvider.js";
 import {
     API_VERSION_QUERY_PARAMETER_NAME,
     HttpMethod,
@@ -16,8 +16,8 @@ import {
     ManagedIdentityIdType,
     ManagedIdentitySourceNames,
     RESOURCE_BODY_OR_QUERY_PARAMETER_NAME,
-    SERVICE_FABRIC_SECRET_HEADER_NAME,
-} from "../../utils/Constants";
+    ML_AND_SF_SECRET_HEADER_NAME,
+} from "../../utils/Constants.js";
 
 // MSI Constants. Docs for MSI are available here https://docs.microsoft.com/azure/app-service/overview-managed-identity
 const SERVICE_FABRIC_MSI_API_VERSION: string = "2019-07-01-preview";
@@ -122,8 +122,7 @@ export class ServiceFabric extends BaseManagedIdentitySource {
                 this.identityEndpoint
             );
 
-        request.headers[SERVICE_FABRIC_SECRET_HEADER_NAME] =
-            this.identityHeader;
+        request.headers[ML_AND_SF_SECRET_HEADER_NAME] = this.identityHeader;
 
         request.queryParameters[API_VERSION_QUERY_PARAMETER_NAME] =
             SERVICE_FABRIC_MSI_API_VERSION;
